@@ -47,7 +47,7 @@ def _render_snowflake_env_var():
                     config['swift-bucket-url']
 
     subprocess.call(snowflake_env_cmd.split(), shell=False)
-    subprocess.call('source /etc/environment'.split(), shell=False)
+    execfile('/etc/environment')
 
 
 def _get_whelp_bucket_files():
