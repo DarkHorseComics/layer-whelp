@@ -12,4 +12,4 @@ includes:
 - interface:http
 - layer:basic
 - layer:nginx
-repo: https://git.darkhorse.com/ops/layer-whelp.git
+repo: https://github.com/darkhorsecomics/layer-whelp.git
