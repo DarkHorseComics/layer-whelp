@@ -1,0 +1,36 @@
+options:
+  port:
+    type: int
+    default: 80
+    description: |
+      NGINX listen port
+  host:
+    type: string
+    default: 127.0.0.1
+    description: listen address
+  whelp-port:
+    type: int
+    default: 8081
+    description: Port for whelp to run on
+  snowflake-address:
+    type: string
+    default: ""
+    description: Dungeon snowflake address
+  swift-bucket-url:
+    type: string
+    default: ""
+  swift-bucket-user:
+    type: string
+    default: ""
+  swift-bucket-pass:
+    type: string
+    default: ""
+  swift-bucket-tenant:
+    type: string
+    default: ""
+  swift-container:
+    type: string
+    default: ""
+  swift-object:
+    type: string
+    default: ""

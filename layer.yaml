@@ -1,0 +1,15 @@
+options:
+  basic:
+    packages:
+    - supervisor
+    - build-essential
+    - python3-setuptools
+    - python3-dev
+    - libatlas-dev
+    - libatlas3-base
+includes:
+- layer:basic
+- interface:http
+- layer:basic
+- layer:nginx
+repo: https://git.darkhorse.com/ops/layer-whelp.git
