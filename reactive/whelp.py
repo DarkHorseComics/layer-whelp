@@ -60,23 +60,25 @@ def _get_whelp_bucket_files():
     password = os.environ.get('SWIFT_BUCKET_PASS', '')
     tenant_name = os.environ.get('SWIFT_BUCKET_TENANT', '')
     auth_url = os.environ.get('SWIFT_BUCKET_URL', '')
-    self.container = os.environ.get('SWIFT_CONTAINER', '')
-    self.obj = os.environ.get('SWIFT_OBJECT', '')
+
+    container = os.environ.get('SWIFT_CONTAINER', '')
+    obj = os.environ.get('SWIFT_OBJECT', '')
 
     cacert = None
     insecure = False
 
-    self.swift = swiftclient.client.Connection(authurl=auth_url,
-                                               user=username,
-                                               key=password,
-                                               tenant_name=tenant_name,
-                                               cacert=cacert,
-                                               insecure=insecure,
-                                               auth_version="2.0")
+    swift = swiftclient.client.Connection(authurl=auth_url,
+                                          user=username,
+                                          key=password,
+                                          tenant_name=tenant_name,
+                                          cacert=cacert,
+                                          insecure=insecure,
+                                          auth_version="2.0")
 
-    resp_headers, obj_contents = self.swift.get_object(self.container,
-                                                       self.OBJ)
+    resp_headers, obj_contents = self.swift.get_object(container, obj)
+
     tarfile_path = WHELP_HOME + '/state.tar.gz'
+
     with open(tarfile_path, 'wb') as local:
         local.write(obj_contents)
 
