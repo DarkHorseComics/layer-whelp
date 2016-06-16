@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import os
 import subprocess
 
 from charms.reactive import when
@@ -7,128 +6,26 @@ from charms.reactive import when_not
 from charms.reactive import set_state
 
 from charmhelpers.core import hookenv
-from charmhelpers.core import host
-from charmhelpers.core.templating import render
-from charmhelpers.core.host import chdir
-from charmhelpers.core.host import chownr
-from charmhelpers.contrib.python.packages import pip_install
 
-import tarfile
-
-from nginxlib import configure_site
+from charms.layer.whelp import Whelp, WHELP_HOME
 
 
 config = hookenv.config()
 
-WHELP_HOME = '/srv/whelp'
-WHELP_VARS = '/srv/whelp/whelp/straight_script/vars/__init__.py'
-WHELP_SUPERVISOR_CONF = '/etc/supervisor/conf.d/whelp.conf'
-
-
-def _render_snowflake_env_var():
-    '''
-    Render init file for SNOWFLAKE_ADDRESS variable
-    '''
-
-    snowflake_env_cmd = 'echo "SNOWFLAKE_ADDRESS=%s" >> /etc/environment' % \
-                        config['snowflake-address'] 
-
-    swift_bucket_user_cmd = 'echo "SWIFT_BUCKET_USER=%s" >> /etc/environment' % \
-                            config['swift-bucket-user']
-    swift_bucket_pwd_cmd = 'echo "SWIFT_BUCKET_PASS=%s" >> /etc/environment' % \
-                           config['swift-bucket-pass']
-    swift_tenant_cmd = 'echo "SWIFT_BUCKET_TENANT=%s" >> /etc/environment' % \
-                      config['swift-bucket-tenant']
-    swift_container_cmd = 'echo "SWIFT_CONTAINER=%s" >> /etc/environment' % \
-                           config['swift-container']
-    swift_obj_cmd = 'echo "SWIFT_OBJECT=%s" >> /etc/environment' % \
-                    config['swift-object']
-    swift_url_cmd = 'echo "SWIFT_BUCKET_URL=%s" >> /etc/environment' % \
-                    config['swift-bucket-url']
-
-    subprocess.call(snowflake_env_cmd.split(), shell=False)
-    subprocess.call(swift_bucket_user_cmd.split(), shell=False)
-    subprocess.call(swift_bucket_pwd_cmd.split(), shell=False)
-    subprocess.call(swift_tenant_cmd.split(), shell=False)
-    subprocess.call(swift_container_cmd.split(), shell=False)
-    subprocess.call(swift_obj_cmd.split(), shell=False)
-    subprocess.call(swift_url_cmd.split(), shell=False)
-    exec(open('/etc/environment').read())
-
-
-def _get_whelp_bucket_files():
-
-    '''
-    Retrieves the initial state files from bucket storage
-    '''
-
-    username = os.environ.get('SWIFT_BUCKET_USER', '')
-    password = os.environ.get('SWIFT_BUCKET_PASS', '')
-    tenant_name = os.environ.get('SWIFT_BUCKET_TENANT', '')
-    auth_url = os.environ.get('SWIFT_BUCKET_URL', '')
-
-    container = os.environ.get('SWIFT_CONTAINER', '')
-    obj = os.environ.get('SWIFT_OBJECT', '')
-
-    cacert = None
-    insecure = False
-
-    swift = swiftclient.client.Connection(authurl=auth_url,
-                                          user=username,
-                                          key=password,
-                                          tenant_name=tenant_name,
-                                          cacert=cacert,
-                                          insecure=insecure,
-                                          auth_version="2.0")
-
-    resp_headers, obj_contents = self.swift.get_object(container, obj)
-
-    tarfile_path = WHELP_HOME + '/state.tar.gz'
-
-    with open(tarfile_path, 'wb') as local:
-        local.write(obj_contents)
-
-    tar = tarfile.open(tarfile_path)
-    tar.extractall(WHELP_HOME)
-
-
-def _render_whelp_supervisor_conf():
-
-    """ Render /etc/supervisor/conf.d/whelp.conf
-        and restart supervisor process.
-    """
-    if os.path.exists(WHELP_SUPERVISOR_CONF):
-        subprocess.call('supervisorctl stop whelp'.split(), shell=False)
-        os.remove(WHELP_SUPERVISOR_CONF)
-
-    render(source='whelp.conf',
-           target=WHELP_SUPERVISOR_CONF,
-           owner='root',
-           perms=0o644,
-           context={})
-
-    # Reread supervisor .conf and start/restart process
-    subprocess.call('supervisorctl reread'.split(), shell=False)
-    subprocess.call('supervisorctl update'.split(), shell=False)
-    subprocess.call('supervisorctl start whelp'.split(), shell=False)
-
-    # Restart NGINX
-    host.service_restart('nginx')
-
-
+    
 @when_not('whelp.installed')
-def install_whelp():
+def install_whelp(self):
     '''
     Reactive hook to install whelp
     '''
     hookenv.status_set('maintenance', 'Installing whelp')
     
-    web_tar = hookenv.resource_get('webapp')
+    whelp_tar = hookenv.resource_get('webapp')
 
     hookenv.status_set('maintenance', 'installing webapp')
 
     # Extract tar resource
-    tar = tarfile.open(web_tar)
+    tar = tarfile.open(whelp_tar)
     tar.extractall(WHELP_HOME)
 
     # Install pip3 reqs
@@ -140,11 +37,8 @@ def install_whelp():
     # Set permissions
     chownr(WHELP_HOME, 'www-data', 'www-data')
 
-    # Render vars to /etc/environments
-    _render_snowflake_env_var()
-
     # Get state files for whelp to run
-    _get_whelp_bucket_files()
+    whelp.get_whelp_bucket_files()
 
     # Configure NGINX
     configure_site('whelp', 'whelp.vhost', 
@@ -155,7 +49,7 @@ def install_whelp():
                     shell=False)
 
     # Render whelp supervisor.conf 
-    _render_whelp_supervisor_conf()
+    whelp.render_whelp_supervisor_conf()
 
     # Open port 80
     hookenv.open_port(config['port'])
