@@ -12,12 +12,11 @@ from charmhelpers.core.host import chownr
 from charmhelpers.contrib.python.packages import pip_install
 
 
-from nginxlib import configure_site
-
-
 config = hookenv.config()
 
+
 WHELP_HOME = '/srv/whelp'
+
 
 class Whelp:
     def __init__(self):

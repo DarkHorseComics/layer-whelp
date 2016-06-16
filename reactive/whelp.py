@@ -9,6 +9,8 @@ from charmhelpers.core import hookenv
 
 from charms.layer.whelp import Whelp, WHELP_HOME
 
+from nginxlib import configure_site
+
 
 config = hookenv.config()
 
