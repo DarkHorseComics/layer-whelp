@@ -21,6 +21,8 @@ def install_whelp(self):
     Reactive hook to install whelp
     '''
     hookenv.status_set('maintenance', 'Installing whelp')
+
+    whelp = Whelp()
     
     whelp_tar = hookenv.resource_get('webapp')
 
