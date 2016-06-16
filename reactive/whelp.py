@@ -5,6 +5,9 @@ from charms.reactive import when_not
 from charms.reactive import set_state
 
 from charmhelpers.core import hookenv
+from charmhelpers.core.host import chdir
+from charmhelpers.core.host import chownr
+from charmhelpers.contrib.python.packages import pip_install
 
 from charms.layer.whelp import Whelp, WHELP_HOME
 
