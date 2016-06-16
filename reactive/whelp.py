@@ -10,7 +10,7 @@ from charmhelpers.core.host import chdir
 from charmhelpers.core.host import chownr
 from charmhelpers.contrib.python.packages import pip_install
 
-from charms.layer.whelp import Whelp, WHELP_HOME
+from charms.layer.whelp_utils import Whelp, WHELP_HOME
 
 from nginxlib import configure_site
 
