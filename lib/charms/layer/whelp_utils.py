@@ -37,13 +37,6 @@ class Whelp:
         Retrieves the initial state files from bucket storage
         '''
 
-
-        container = self.swift_container
-        obj = self.swif_object
-
-        cacert = None
-        insecure = False
-
         swift = swiftclient.client.Connection(authurl=self.swift_bucket_url,
                                               user=self.swift_bucket_user,
                                               key=self.swift_bucket_pass,
