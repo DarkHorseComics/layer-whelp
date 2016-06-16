@@ -7,9 +7,6 @@ import swiftclient
 from charmhelpers.core import hookenv
 from charmhelpers.core import host
 from charmhelpers.core.templating import render
-from charmhelpers.core.host import chdir
-from charmhelpers.core.host import chownr
-from charmhelpers.contrib.python.packages import pip_install
 
 
 config = hookenv.config()
