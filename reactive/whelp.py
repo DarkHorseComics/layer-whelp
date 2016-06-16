@@ -66,5 +66,5 @@ def install_whelp():
                        'Whelp is active on port %s' % config['port'])
 
     # Set whelp.available state
-    set_state('whelp.available')
+    set_state('whelp.installed')
 
