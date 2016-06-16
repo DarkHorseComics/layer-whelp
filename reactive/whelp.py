@@ -37,7 +37,7 @@ def _render_snowflake_env_var():
                             config['swift-bucket-user']
     swift_bucket_pwd_cmd = 'echo "SWIFT_BUCKET_PASS=%s" >> /etc/environment' % \
                            config['swift-bucket-pass']
-    os_tenant_cmd = 'echo "SWIFT_BUCKET_TENANT=%s" >> /etc/environment' % \
+    swift_tenant_cmd = 'echo "SWIFT_BUCKET_TENANT=%s" >> /etc/environment' % \
                       config['swift-bucket-tenant']
     swift_container_cmd = 'echo "SWIFT_CONTAINER=%s" >> /etc/environment' % \
                            config['swift-container']
@@ -47,7 +47,13 @@ def _render_snowflake_env_var():
                     config['swift-bucket-url']
 
     subprocess.call(snowflake_env_cmd.split(), shell=False)
-    execfile('/etc/environment')
+    subprocess.call(swift_bucket_user_cmd.split(), shell=False)
+    subprocess.call(swift_bucket_pwd_cmd.split(), shell=False)
+    subprocess.call(swift_tenant_cmd.split(), shell=False)
+    subprocess.call(swift_container_cmd.split(), shell=False)
+    subprocess.call(swift_obj_cmd.split(), shell=False)
+    subprocess.call(swift_url_cmd.split(), shell=False)
+    exec(open('/etc/environment').read())
 
 
 def _get_whelp_bucket_files():
