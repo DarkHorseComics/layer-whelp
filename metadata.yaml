@@ -1,18 +1,20 @@
-"name": "whelp"
-"summary": "Whelp Server for DHC"
-"maintainer": "James Beedy <jbeedy@darkhorse.com> / Cole Howard <coleh@darkhorse.com>"
-"description": |
+name: whelp
+summary: Whelp Server for DHC
+maintainer: James Beedy <jbeedy@darkhorse.com> / Cole Howard <coleh@darkhorse.com>
+description: |
   Charm to deploy WHELP
-"tags":
-- "misc"
-"provides":
-  "website":
-    "interface": "http"
-"resources":
-  "webapp":
-    "type": "file"
-    "filename": "whelp.tar.gz"
-    "description": "this is my hash -> 6158d538391bb8a589eacd22c41e36b3"
-"series":
-- "xenial"
-"subordinate": !!bool "false"
+tags:
+- whelp
+- misc
+- recommendation-engine
+provides:
+  website:
+    interface: http
+resources:
+  webapp:
+    type: file
+    filename: whelp.tar.gz
+    description: this is my hash -> 6158d538391bb8a589eacd22c41e36b3
+series:
+- xenial
+subordinate: 'false'
