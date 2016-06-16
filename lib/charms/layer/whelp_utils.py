@@ -42,7 +42,7 @@ class Whelp:
                                               auth_version="2.0")
     
         resp_headers, obj_contents = swift.get_object(self.swift_container,
-                                                      self.swif_object)
+                                                      self.swift_object)
     
         with open(self.whelp_tar, 'wb') as whelp_tar:
             whelp_tar.write(obj_contents)
