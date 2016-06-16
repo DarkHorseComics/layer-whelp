@@ -19,7 +19,7 @@ config = hookenv.config()
 
     
 @when_not('whelp.installed')
-def install_whelp(self):
+def install_whelp():
     '''
     Reactive hook to install whelp
     '''
