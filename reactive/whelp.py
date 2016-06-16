@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import subprocess
 
-from charms.reactive import when
 from charms.reactive import when_not
 from charms.reactive import set_state
 
