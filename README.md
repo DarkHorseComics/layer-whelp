@@ -13,17 +13,15 @@ The main idea behind whelp deployment was to be as efficient as possible with th
 
 To deploy whelp, you must also pass it a config file 'whelp.yaml`.
 
-```yaml
-# whelp.yaml
-whelp:
-  snowflake-address: "<snowflake-fqdn>"
-  swift-bucket-url: "http://<swift-bucket>:5000/v2.0"
-  swift-bucket-user: "bucket-user"
-  swift-bucket-pass: "bucket-pass"  
-  swift-bucket-tenant: "bucket-tenant"
-  swift-container: "container"
-  swift-object: "state.tar.gz"
-```
+    # whelp.yaml
+    whelp:
+      snowflake-address: "<snowflake-fqdn>"
+      swift-bucket-url: "http://<swift-bucket>:5000/v2.0"
+      swift-bucket-user: "bucket-user"
+      swift-bucket-pass: "bucket-pass"  
+      swift-bucket-tenant: "bucket-tenant"
+      swift-container: "container"
+      swift-object: "state.tar.gz"
 
 # Usage
 
