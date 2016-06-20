@@ -6,7 +6,7 @@ Whelp is a recommendation engine for DarkHorseComics DHD/Dungeon, this charm dep
 # Overview
 This charm provides the scaffolding for "Whelp"!
 
-The main idea behind whelp deployment was to be as efficient as possible with the mitigation of internal resources. To this extent, a statefile is pulled from bucket storage instead of being regenerated on deploy. Also, this charm leverages  Juju "resources" in order to facilitate development, deployment, and scaling at a hightened level of security, portablilty, and reusability at no extra cost.
+The main idea behind whelp deployment was to be as efficient as possible with the mitigation of internal resources. To this extent, a statefile is pulled from bucket storage instead of being regenerated on deploy. Also, this charm leverages  Juju "resources" in order to facilitate development, deployment, and scaling at a heightened level of security, portablilty, and reusability at no extra cost.
 
 
 # Configuration
