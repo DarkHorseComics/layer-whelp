@@ -13,6 +13,7 @@ config = hookenv.config()
 
 
 WHELP_HOME = '/srv/whelp'
+STATE_HOME = '/srv'
 
 
 class Whelp:
@@ -24,7 +25,7 @@ class Whelp:
         self.swift_bucket_url = config['swift-bucket-url']
         self.swift_object = config['swift-object']
         self.swift_container = config['swift-container']
-        self.whelp_tar = os.path.join(WHELP_HOME, 'state.tar.gz')
+        self.state_tar = os.path.join(STATE_HOME, 'state.tar.gz')
         self.whelp_supervisor_conf = '/etc/supervisor/conf.d/whelp.conf'
 
 
@@ -44,11 +45,11 @@ class Whelp:
         resp_headers, obj_contents = swift.get_object(self.swift_container,
                                                       self.swift_object)
     
-        with open(self.whelp_tar, 'wb') as whelp_tar:
-            whelp_tar.write(obj_contents)
+        with open(self.state_tar, 'wb') as state_tar:
+            state_tar.write(obj_contents)
     
-        tar = tarfile.open(self.whelp_tar)
-        tar.extractall(WHELP_HOME)
+        tar = tarfile.open(self.state_tar)
+        tar.extractall(STATE_HOME)
     
     
     def render_whelp_supervisor_conf(self):
